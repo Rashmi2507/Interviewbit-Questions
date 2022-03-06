@@ -1,0 +1,54 @@
+https://www.interviewbit.com/problems/tushars-birthday-bombs/
+
+Algorithm
+1. We need to create a class Pair with index and strength
+2. Get the required friend's strength in the new ArrayList
+3. Get the max no. of kicks by dividing maximum capacity by the minimum strength
+4. Then iterate through the newly created vector and put that friend's strength which can be successfully used rather than the friend with minimum strength
+
+class Pair {
+    int ind;
+    int strength;
+
+    public Pair(int ind, int strength)
+    {
+        this.ind = ind;
+        this.strength = strength;
+    }
+}
+
+public class Solution {
+    public ArrayList<Integer> solve(int A, ArrayList<Integer> B) {
+
+        int prev = Integer.MAX_VALUE;
+        ArrayList<Pair> newB = new ArrayList<Pair>();
+
+        for(int i=0; i<B.size(); i++)
+        {
+            if(B.get(i) < prev)
+            {
+                newB.add(new Pair(i, B.get(i)));
+                prev = B.get(i);
+            }
+        }
+
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+        int n = newB.size();
+        int R = A;
+        int temp = newB.get(n-1).strength;
+        int i =0;
+
+        while(i < n)
+        {
+            if(R >= newB.get(i).strength && ((1 + (R-newB.get(i).strength)/temp) == R/temp))
+            {
+                ans.add(newB.get(i).ind);
+                R = R - newB.get(i).strength;
+            }
+            else
+                i++;
+        }
+
+        return ans;
+    }
+}
