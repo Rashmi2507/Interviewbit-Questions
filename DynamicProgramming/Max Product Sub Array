@@ -1,0 +1,19 @@
+https://www.interviewbit.com/problems/max-product-subarray/
+
+public class Solution {
+    // DO NOT MODIFY THE ARGUMENTS WITH "final" PREFIX. IT IS READ ONLY
+    public int maxProduct(final int[] A) {
+        int max_ending_here = A[0];
+        int min_ending_here = A[0];
+        int max_so_far = A[0];
+
+        for(int i=1; i<A.length; i++)
+        {
+            int temp = Math.max(A[i], Math.max(A[i] * max_ending_here, A[i] * min_ending_here));
+            min_ending_here = Math.min(A[i], Math.min(A[i] * max_ending_here, A[i] * min_ending_here));
+            max_ending_here = temp;
+            max_so_far = Math.max(max_so_far, max_ending_here);
+        }
+        return max_so_far;
+    }
+}
