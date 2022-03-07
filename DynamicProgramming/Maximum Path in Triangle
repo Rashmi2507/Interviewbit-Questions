@@ -1,0 +1,16 @@
+https://www.interviewbit.com/problems/maximum-path-in-triangle/
+
+public class Solution {
+    public int solve(int[][] A) {
+        int colLen = A[0].length-1;
+        for(int i=A.length-2; i>=0; i--)
+        {
+            for(int j=0; j<colLen; j++)
+            {
+                A[i][j] = A[i][j] + Math.max(A[i+1][j], A[i+1][j+1]);
+            }
+            colLen-=1;
+        }
+        return A[0][0];
+    }
+}
