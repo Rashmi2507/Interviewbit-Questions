@@ -1,0 +1,20 @@
+https://www.interviewbit.com/problems/best-time-to-buy-and-sell-stocks-i/
+
+public class Solution {
+    // DO NOT MODIFY THE ARGUMENTS WITH "final" PREFIX. IT IS READ ONLY
+    public int maxProfit(final int[] A) {
+        //keep left min
+        int minPrice = Integer.MAX_VALUE;
+        //keep profit initially as 0, if you have [5, 4, 3, 2, 1] 
+        //then in any case you will not have profit so it should be 0 initially
+        int maxProfit = 0;
+
+        //iterate over array and keep on updating minPrice and maxProfit
+        for(int i=0; i<A.length; i++)
+        {
+            minPrice = Math.min(minPrice, A[i]);
+            maxProfit = Math.max(maxProfit, A[i] - minPrice);
+        }
+        return maxProfit;
+    }
+}
