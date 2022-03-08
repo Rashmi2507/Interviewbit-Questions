@@ -1,0 +1,41 @@
+https://www.interviewbit.com/problems/binary-tree-from-inorder-and-postorder/
+
+/**
+ * Definition for binary tree
+ * class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) {
+ *      val = x;
+ *      left=null;
+ *      right=null;
+ *     }
+ * }
+ */
+public class Solution {
+    public TreeNode buildTree(int[] A, int[] B) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int i=0; i<A.length; i++)
+        {
+            map.put(A[i],i);
+        }
+        TreeNode root = buildTrees(A, 0, A.length-1, B, 0, B.length-1, map);
+        return root;
+    }
+
+    public TreeNode buildTrees(int[] in, int inStart, int inEnd, int[] post, int postStart, int postEnd, HashMap<Integer,Integer> map)
+    {
+        if(postStart > postEnd || inStart > inEnd) return null;
+
+        TreeNode root = new TreeNode(post[postEnd]);
+
+        int inRoot = map.get(root.val);
+        int numLeft = inRoot - inStart;
+
+        root.left = buildTrees(in, inStart, inRoot - 1, post, postStart,  postStart + numLeft -1,  map);
+        root.right = buildTrees(in,  inRoot + 1, inEnd, post, postStart + numLeft, postEnd-1, map);
+
+        return root;
+    }
+} 
