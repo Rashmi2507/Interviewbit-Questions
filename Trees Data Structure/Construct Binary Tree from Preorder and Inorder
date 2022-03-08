@@ -1,0 +1,41 @@
+https://www.interviewbit.com/problems/construct-binary-tree-from-inorder-and-preorder/
+
+/**
+ * Definition for binary tree
+ * class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) {
+ *      val = x;
+ *      left=null;
+ *      right=null;
+ *     }
+ * }
+ */
+public class Solution {
+    public TreeNode buildTree(int[] A, int[] B) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i=0; i<B.length; i++)
+        {
+            map.put(B[i], i);
+        }
+        TreeNode root = buildsTree(A, 0, A.length-1, B, 0, B.length-1, map);
+        return root;
+    }
+
+    public TreeNode buildsTree(int[] pre, int preStart, int preEnd, int[] in, int inStart, int inEnd, HashMap<Integer,Integer> map)
+    {
+        if(preStart>preEnd || inStart>inEnd)
+            return null;
+
+        TreeNode root = new TreeNode(pre[preStart]);
+        int inRoot = map.get(root.val);
+        int numLeft = inRoot-inStart;
+
+        root.left = buildsTree(pre, preStart+1, preStart+numLeft, in, inStart, inRoot-1, map);
+        root.right = buildsTree(pre, preStart+numLeft+1, preEnd, in, inRoot+1, inEnd, map);
+
+        return root;
+    }
+}
