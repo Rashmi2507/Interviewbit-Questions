@@ -1,0 +1,41 @@
+https://www.interviewbit.com/problems/inorder-traversal-of-cartesian-tree/
+
+/**
+ * Definition for binary tree
+ * class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) {
+ *      val = x;
+ *      left=null;
+ *      right=null;
+ *     }
+ * }
+ */
+public class Solution {
+    public TreeNode buildTree(int[] A) {
+        return buildTree(A, 0, A.length-1);
+    }
+
+    public TreeNode buildTree(int[] A, int start, int end)
+    {
+        if(start > end) return null;
+
+        int ind = -1;
+        int max = Integer.MIN_VALUE;
+        for(int i=start; i<=end; i++)
+        {
+            if(max < A[i])
+            {
+                max = A[i];
+                ind = i;
+            }
+        }
+
+        TreeNode root = new TreeNode(A[ind]);
+        root.left = buildTree(A, start, ind-1);
+        root.right = buildTree(A, ind+1, end);
+        return root;
+    }
+}
