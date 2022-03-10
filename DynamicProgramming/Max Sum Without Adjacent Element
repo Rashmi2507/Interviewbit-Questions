@@ -1,0 +1,20 @@
+https://www.interviewbit.com/problems/max-sum-without-adjacent-elements/
+
+public class Solution {
+    public int adjacent(int[][] A) {
+        int[] dp = new int[A[0].length+1];
+
+        if(A[0].length == 1) 
+            return Math.max(A[0][0], A[1][0]);
+
+        dp[0] = 0;
+        dp[1] = Math.max(A[0][0], A[1][0]);
+        dp[2] = Math.max(A[0][1], A[1][1]);
+
+        for(int i=3; i<=A[0].length; i++)
+        {
+            dp[i] = Math.max(A[0][i-1], A[1][i-1]) + Math.max(dp[i-2], dp[i-3]);
+        }
+        return Math.max(dp[A[0].length-1], dp[A[0].length]);
+    }
+}
