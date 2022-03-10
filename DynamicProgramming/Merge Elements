@@ -1,0 +1,27 @@
+https://www.interviewbit.com/problems/merge-elements/
+
+public class Solution {
+    public int solve(int[] A) {
+        int[][] dp = new int[A.length][A.length];
+
+        int[] prefix = new int[A.length+1];
+        for(int i=1; i<=A.length; i++)
+        {
+            prefix[i] = prefix[i-1] + A[i-1];
+        }
+
+        for(int diff=1; diff<A.length; diff++)
+        {
+            for(int i=0; i<A.length-diff; i++)
+            {
+                int j = i+diff;
+                dp[i][j] = Integer.MAX_VALUE;
+                for(int k=i; k<j; k++)
+                {
+                    dp[i][j] = Math.min(dp[i][j], prefix[j+1] - prefix[i] + dp[i][k] + dp[k+1][j]);
+                }
+            }
+        }
+        return dp[0][A.length-1];
+    }
+}
