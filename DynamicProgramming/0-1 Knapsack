@@ -1,0 +1,24 @@
+https://www.interviewbit.com/problems/0-1-knapsack/
+
+public class Solution {
+    public int solve(int[] A, int[] B, int C) {
+        int[][] dp = new int[A.length+1][C+1];
+
+        for(int i=0; i<=A.length; i++)
+            dp[i][0] = 0;
+
+        for(int j=0; j<=C; j++)
+            dp[0][j] = 0;
+
+        for(int i=1; i<=A.length; i++)
+        {
+            for(int j=1; j<=C; j++)
+            {
+                dp[i][j] = dp[i-1][j];
+                if(j >= B[i-1])
+                    dp[i][j] = Math.max(dp[i][j], A[i-1] + dp[i-1][j-B[i-1]]);
+            }
+        }
+        return dp[A.length][C];
+    }
+}
