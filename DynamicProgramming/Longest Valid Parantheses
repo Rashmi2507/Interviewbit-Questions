@@ -1,0 +1,34 @@
+https://www.interviewbit.com/problems/longest-valid-parentheses/
+
+public class Solution {
+    public int longestValidParentheses(String A) {
+        Stack<Character> ct = new Stack<>();
+        Stack<Integer> index = new Stack<>();
+        index.add(-1);
+
+        int max = 0;
+
+        for(int i=0; i<A.length(); i++)
+        {
+            if(A.charAt(i) == '(')
+            {
+                ct.add('(');
+                index.add(i);
+            }
+            else
+            {
+                if(!ct.isEmpty() && ct.peek() == '(')
+                {
+                    ct.pop();
+                    index.pop();
+                    max = Math.max(max, i - index.peek());
+                }
+                else
+                {
+                    index.add(i);
+                }
+            }
+        }
+        return max;
+    }
+}
