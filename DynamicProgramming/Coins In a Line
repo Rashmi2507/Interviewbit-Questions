@@ -1,0 +1,35 @@
+https://www.interviewbit.com/problems/coins-in-a-line/
+
+public class Solution {
+    public int maxcoin(int[] A) {
+        int[][] dp = new int[A.length][A.length];
+
+        for(int g=0; g<A.length; g++)
+        {
+            for(int i=0, j=g; j<A.length; i++, j++)
+            {
+                if(g==0)
+                {
+                    dp[i][j] = A[i];
+                }
+                else if(g==1)
+                {
+                    dp[i][j] = Math.max(A[i], A[j]);
+                }
+                else
+                {
+                    int val1 = A[i] + Math.min(dp[i+2][j], dp[i+1][j-1]);
+                    //i -> i+1, j
+                    //i+1 -> i+2, j
+                    //j -> i+1, j-1
+                    int val2 = A[j] + Math.min(dp[i+1][j-1], dp[i][j-2]);
+                    //j -> i, j-1
+                    // i -> i+1, j-1
+                    // j-1 -> i, j-2
+                    dp[i][j] = Math.max(val1, val2);
+                }
+            }
+        }
+        return dp[0][A.length-1];
+    }
+}
