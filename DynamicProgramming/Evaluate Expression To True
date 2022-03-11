@@ -1,0 +1,72 @@
+https://www.interviewbit.com/problems/evaluate-expression-to-true/
+
+public class Solution {
+    public int cnttrue(String A) {
+        StringBuilder sb1 = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
+        for(int i=0; i<A.length(); i++)
+        {
+            if(A.charAt(i) == 'T' || A.charAt(i) == 'F')
+                sb1.append(A.charAt(i));
+            else
+                sb2.append(A.charAt(i));
+        }
+
+        String s1 = sb1.toString();
+        String s2 = sb2.toString();
+
+        int n = s1.length();
+
+        int[][] dpt = new int[n][n];
+        int[][] dpf = new int[n][n];
+
+        for(int g=0; g<n; g++)
+        {
+            for(int i=0, j=g; j<n; i++, j++)
+            {
+                if(g==0)
+                {
+                    char ch = s1.charAt(i);
+                    if(ch == 'T')
+                    {
+                        dpt[i][j] = 1;
+                        dpf[i][j] = 0;
+                    }
+                    else
+                    {
+                        dpt[i][j] = 0;
+                        dpf[i][j] = 1;
+                    }
+                }
+                else
+                {
+                    for(int k=i; k<j; k++)
+                    {
+                        char oprtr = s2.charAt(k);
+                        int ltc = dpt[i][k];
+                        int rtc = dpt[k+1][j];
+                        int lfc = dpf[i][k];
+                        int rfc = dpf[k+1][j];
+
+                        if(oprtr == '&')
+                        {
+                            dpt[i][j] =  (dpt[i][j] % 1003 + (ltc*rtc) % 1003) % 1003;
+                            dpf[i][j] =  (dpf[i][j] % 1003 + (ltc*rfc) % 1003 + (lfc*rtc) % 1003 + (lfc*rfc) % 1003) % 1003;
+                        }
+                        else if(oprtr == '|')
+                        {
+                            dpt[i][j] =  (dpt[i][j] % 1003 + (ltc*rtc) % 1003 + (ltc*rfc) % 1003 + (lfc*rtc) % 1003) % 1003;
+                            dpf[i][j] =  (dpf[i][j] % 1003 + (lfc*rfc) % 1003) % 1003;
+                        }
+                        else if(oprtr == '^')
+                        {
+                            dpt[i][j] = (dpt[i][j] % 1003 + (ltc*rfc) % 1003 + (lfc*rtc) % 1003) % 1003;
+                            dpf[i][j] = (dpf[i][j] % 1003 + (ltc*rtc) % 1003 + (lfc*rfc) % 1003) % 1003;
+                        }
+                    }
+                }
+            }
+        }
+        return (dpt[0][n-1] < 0 ? (1003 + (dpt[0][n-1] % 1003)) : dpt[0][n-1] % 1003);
+    }
+}
