@@ -1,0 +1,30 @@
+https://www.interviewbit.com/problems/egg-drop-problem/
+
+public class Solution {
+    public int solve(int A, int B) {
+        int[][] dp = new int[A+1][B+1];
+
+        for(int i=1; i<=A; i++)
+        {
+            for(int j=1; j<=B; j++)
+            {
+                if(i==1)
+                    dp[i][j] = j;
+                else if(j==1)
+                    dp[i][j] = 1;
+                else
+                {
+                    int min = Integer.MAX_VALUE;
+
+                    for(int mj = j-1, pj = 0; mj>=0; mj--, pj++)
+                    {
+                        int val = Math.max(dp[i][mj],dp[i-1][pj]);
+                        min = Math.min(min, val);
+                    }
+                    dp[i][j] = min+1;
+                }
+            }
+        }
+        return dp[A][B];
+    }
+}
