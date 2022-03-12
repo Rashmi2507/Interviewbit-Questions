@@ -1,0 +1,38 @@
+https://www.interviewbit.com/problems/kth-manhattan-distance-neighbourhood/
+
+public class Solution {
+    public int[][] solve(int A, int[][] B) {
+        int[][] curr = B;
+        for(int k=0; k<A; k++)
+        {
+            int[][] next = copyMatrix(curr);
+            for(int i=0; i<B.length; i++)
+            {
+                for(int j=0; j<B[0].length; j++)
+                {
+                    int val = curr[i][j];
+                    int left = (j==0 ? -1 : curr[i][j-1]);
+                    int right = (j==B[0].length-1 ? -1 : curr[i][j+1]);
+                    int up = (i==0 ? -1 : curr[i-1][j]);
+                    int down = (i==B.length-1 ? -1 : curr[i+1][j]);
+                    next[i][j] = Math.max(val, Math.max(left, Math.max(right, Math.max(up, down))));
+                }
+            }
+            curr = next;
+        }
+        return curr;
+    }
+
+    public int[][] copyMatrix(int[][] A)
+    {
+        int[][] res = new int[A.length][A[0].length];
+        for(int i=0; i<A.length; i++)
+        {
+            for(int j=0; j<A[0].length; j++)
+            {
+                res[i][j] = A[i][j];
+            }
+        }
+        return res;
+    }
+}
